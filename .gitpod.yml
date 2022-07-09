@@ -3,15 +3,16 @@ image:
 
 tasks:
 - before: |
-    export PATH=$FLUTTER_HOME/bin:$ANDROID_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/bin/:$ANDROID_HOME/emulator/:$PATH
+    export PATH=$FLUTTER_HOME/bin:$ANDROID_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/bin/:$ANDROID_HOME/emulator/:/workspace/temp/cmdline-tools/bin/:$PATH
     mkdir -p /home/gitpod/.android
     touch /home/gitpod/.android/repositories.cfg
   init: |
     echo "Installing Flutter SDK..."
     cd /workspace && wget -qO flutter_sdk.tar.xz https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_v1.12.13+hotfix.7-stable.tar.xz && tar -xf flutter_sdk.tar.xz && rm -f flutter_sdk.tar.xz
     echo "Installing Android SDK..."
-    mkdir -p /workspace/android-sdk && cd /workspace/android-sdk && wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip && unzip commandlinetools-linux-8512546_latest.zip && rm -f commandlinetools-linux-8512546_latest.zip
-    /workspace/android-sdk/cmdline-tools/bin/sdkmanager "platform-tools" "platforms;android-29" "build-tools;28.0.3" --sdk_root=/workspace/android-sdk
+    mkdir -p /workspace/temp && cd /workspace/temp && wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip && unzip commandlinetools-linux-8512546_latest.zip && rm -f commandlinetools-linux-8512546_latest.zip
+    mkdir -p /workspace/android-sdk
+    /workspace/temp/cmdline-tools/bin/sdkmanager "platform-tools" "platforms;android-29" "build-tools;28.0.3" --sdk_root=/workspace/android-sdk
     echo "Init Flutter..."
     cd /workspace/ha_client
     flutter upgrade
